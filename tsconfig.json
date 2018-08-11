@@ -1,0 +1,27 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"paths": {
+			"@app/*": ["./src/app/*"],
+			"@test/*": ["./src/test/*"],
+			"@src/*": ["./src/*"]
+		},
+		"outDir": "./devdist",
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": false,
+		"target": "es5",
+		"typeRoots": [
+			"node_modules/@types"
+		],
+		"lib": [
+			"es2017",
+			"dom"
+		]
+	}
+}

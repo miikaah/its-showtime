@@ -1,0 +1,48 @@
+{
+  "name": "its-showtime",
+  "version": "1.0.0",
+  "description": "Show time counter clock and event list",
+  "main": "index.js",
+  "author": "miika.henttonen@gmail.com",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:w": "gulp",
+    "build:release": "gulp release",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.ts": [
+        "tslint -c tslint.json --fix",
+        "git add"
+      ],
+      "*.scss": [
+        "stylelint --quiet --fix",
+        "git add"
+      ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit"
+    }
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.2",
+    "node-sass": "^4.9.3",
+    "rimraf": "^2.6.2",
+    "stylelint": "^9.4.0",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-no-unsupported-browser-features": "^3.0.1",
+    "ts-loader": "^4.4.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {}
+}
