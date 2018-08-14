@@ -1,13 +1,15 @@
+interface Resources {
+	startTime?: string;
+}
+
 export class R {
 	private static instance: R;
-	private resources: {
-		startTime: string;
-	};
+	private resources: Resources;
 
 	private constructor() {
-		this.resources = {
+		this.modifyResources({
 			startTime: '00:00'
-		};
+		});
 	}
 
 	static getInstance() {
@@ -15,11 +17,15 @@ export class R {
 		return R.instance;
 	}
 
+	private modifyResources(resources: Resources) {
+		this.resources = Object.freeze({ ...this.resources, ...resources });
+	}
+
 	get startTime(): string {
-		return Object.freeze(this.resources.startTime);
+		return this.resources.startTime;
 	}
 
 	set startTime(time: string) {
-		this.resources.startTime = time;
+		this.modifyResources({ startTime: time });
 	}
 }

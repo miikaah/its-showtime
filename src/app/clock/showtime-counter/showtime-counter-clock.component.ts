@@ -29,7 +29,6 @@ export class ShowtimeCounterClock extends ClockBaseComponent implements Clock {
 		const minutes = totalMinutes % 60;
 		if (hours < 1) return `${minutes} min`;
 		if (hours < 2) return `${hours} h ${minutes} min`;
-		// return `${hours} h ${minutes} min`;
-		return `23 h 59 min`;
+		return `${hours} h ${minutes} min`;
 	}
 }
