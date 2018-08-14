@@ -5,16 +5,26 @@
   <title>Showtime</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src http://localhost:3000 ws://localhost:3000; script-src 'sha256-iJcsMwzkuoYDQiIE1l2dQLYUNQ2yPFt9EAZXv+KyjAw=' ws://localhost:3000 http://localhost:3000;">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src http://localhost:3000 ws://localhost:3000; script-src 'sha256-iJcsMwzkuoYDQiIE1l2dQLYUNQ2yPFt9EAZXv+KyjAw=' ws://localhost:3000 http://localhost:3000 'unsafe-eval'; object-src 'self';">
 	<link href="styles.css" rel="stylesheet"/>
 </head>
 
 <body>
-	<div class="asd">
-		qweqwe
-	</div>
-	<div class="asd">
-		qweqwe
+	<div class="container">
+		<div class="vignette-container">
+			<span id="vignette-clock"></span>
+		</div>
+		<div class="time-left-container">
+			<span id="showtime-counter-clock" class="showtime-counter-clock"></span>
+		</div>
+		<div class="start-end-time-container">
+			<input id="start-time-clock" type="text" class="start-end-time">
+			<span>-</span>
+			<input id="end-time-clock" type="text" class="start-end-time">
+		</div>
+		<div class="event">
+			<span id="event-name">Shpongle soundcheck</span>
+		</div>
 	</div>
 	<script type="text/javascript" src="bundle.js"></script>
 </body>

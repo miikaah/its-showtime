@@ -3,9 +3,7 @@
 	"compilerOptions": {
 		"baseUrl": "./src",
 		"paths": {
-			"@app/*": ["./src/app/*"],
-			"@test/*": ["./src/test/*"],
-			"@src/*": ["./src/*"]
+			"@app/*": ["app/*"]
 		},
 		"outDir": "./devdist",
 		"sourceMap": true,

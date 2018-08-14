@@ -116,6 +116,9 @@
 			"check-operator",
 			"check-separator",
 			"check-type"
-		]
+		],
+    "interface-name": [true, "never-prefix"],
+    "ordered-imports": false,
+    "trailing-comma": false
 	}
 }

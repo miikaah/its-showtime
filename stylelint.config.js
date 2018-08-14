@@ -23,6 +23,7 @@ module.exports = {
 			severity: 'warning'
 		}],
 		'font-family-name-quotes': 'always-where-recommended',
+		'font-family-no-missing-generic-family-keyword': null,
 		'function-url-quotes': 'always',
 		'selector-attribute-quotes': 'always',
 		'string-quotes': 'single',

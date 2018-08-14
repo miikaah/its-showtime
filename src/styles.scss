@@ -1,5 +1,187 @@
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
+$color-black: #000;
+$color-white: #fff;
 $color-highlight: #f00;
 
-.asd {
-	color: $color-highlight;
+$height-time-left: 50vh;
+$height-start-end-time: 20vh;
+$height-min-container: 320px;
+
+$font-size-xxl: 17rem;
+$font-size-xl: 14rem;
+$font-size-lg: 10rem;
+$font-size-md: 7.5rem;
+$font-size-xs: 4.5rem;
+$font-size-xxs: 3rem;
+
+$breakpoint-xxl: 1880px;
+$breakpoint-xl: 1580px;
+$breakpoint-lg: 1200px;
+$breakpoint-md: 1060px;
+$breakpoint-xs: 767px;
+$breakpoint-xxs: 500px;
+
+$breakpoint-height-xs: 639px;
+$breakpoint-height-xxs: 400px;
+
+body {
+	background-color: $color-black;
+	color: $color-white;
+	min-height: $height-min-container;
+}
+
+input, body {
+	font-family: 'Arial Black';
+
+	.start-end-time {
+		width: 46%;
+		height: $height-start-end-time;
+		font-size: $font-size-lg;
+		text-align: center;
+	}
+}
+
+.showtime-counter-clock {
+	padding: 0 14px;
+}
+
+.time-left-container {
+	height: $height-time-left;
+	text-align: center;
+	font-size: $font-size-xxl;
+}
+
+.vignette-container {
+	text-align: center;
+}
+
+.start-end-time-container {
+	height: $height-start-end-time;
+}
+
+.time-left-container,
+.start-end-time-container {
+	align-items: center;
+	place-content: center;
+	flex-direction: row;
+	display: flex;
+}
+
+.event {
+	text-align: center;
+	padding: 20px;
+	font-size: $font-size-xxs - 1.5rem;
+	max-height: 7vh;
+	overflow: hidden;
+}
+
+@media screen and (max-width: $breakpoint-xxl) {
+	.time-left-container {
+		font-size: $font-size-xl;
+	}
+}
+
+@media screen and (max-width: $breakpoint-xl) and (min-height: $breakpoint-height-xs) {
+	.time-left-container {
+		font-size: $font-size-lg;
+	}
+}
+
+@media screen and (max-width: $breakpoint-lg) and (min-height: $breakpoint-height-xs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-md - .5rem;
+		}
+	}
+}
+
+@media screen and (max-width: $breakpoint-md) and (min-height: $breakpoint-height-xs) {
+	.time-left-container {
+		font-size: $font-size-md;
+	}
+}
+
+@media screen and (max-width: $breakpoint-xs) and (min-height: $breakpoint-height-xs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-xxs;
+		}
+	}
+
+	.time-left-container {
+		font-size: $font-size-xs;
+	}
+}
+
+@media screen and (max-width: $breakpoint-xxs) {
+	.time-left-container {
+		font-size: $font-size-xs;
+	}
+}
+
+// Queries for min heights so mobile landscape works
+
+@media screen and (max-width: $breakpoint-md) and (max-height: $breakpoint-height-xs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-xs - 1rem;
+		}
+	}
+
+	.time-left-container {
+		font-size: $font-size-xs;
+	}
+}
+
+@media screen and (max-width: $breakpoint-xs) and (max-height: $breakpoint-height-xs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-xxs - 1rem;
+		}
+	}
+
+	.time-left-container {
+		font-size: $font-size-xxs;
+	}
+}
+
+@media screen and (max-width: $breakpoint-xs) and (max-height: $breakpoint-height-xxs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-xxs - 1rem;
+		}
+	}
+
+	.time-left-container {
+		font-size: $font-size-xxs;
+	}
+}
+
+@media screen and (max-width: $breakpoint-xxs) and (max-height: $breakpoint-height-xs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-xxs - 1rem;
+		}
+	}
+
+	.time-left-container {
+		font-size: $font-size-xxs;
+	}
+}
+
+@media screen and (max-height: $breakpoint-height-xs) {
+	input, body {
+		.start-end-time {
+			font-size: $font-size-xxs - 1rem;
+		}
+	}
+
+	.time-left-container {
+		font-size: $font-size-xxs;
+	}
+
+	.event {
+		padding: 12px;
+		font-size: 1rem;
+	}
 }

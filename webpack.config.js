@@ -8,7 +8,8 @@ module.exports = {
 		path: path.join(__dirname, 'devdist')
 	},
 	resolve: {
-		extensions: ['.ts']
+		extensions: ['.ts'],
+		alias: { '@app': path.resolve('./src/app/') }
 	},
 	module: {
 		rules: [{
