@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <title>Showtime</title>
 	<meta charset="utf-8">
@@ -8,8 +7,18 @@
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src http://localhost:3000 ws://localhost:3000; script-src 'sha256-iJcsMwzkuoYDQiIE1l2dQLYUNQ2yPFt9EAZXv+KyjAw=' ws://localhost:3000 http://localhost:3000 'unsafe-eval'; object-src 'self';">
 	<link href="styles.css" rel="stylesheet"/>
 </head>
-
 <body>
+	<div id="events-container" class="events-container">
+		<div class="close-event-list-wrapper">
+			<button id="close-event-list-button" type="button" class="close-event-list-button">Close Event List</button>
+		</div>
+		<div id="event-list" class="event-list">
+			<div id="event-item-wrapper" class="event-item-wrapper"></div>
+			<div class="event-list-tools">
+				<button id="event-add" type="button" class="event-add">Add Event</button>
+			</div>
+		</div>
+	</div>
 	<div class="container">
 		<div class="vignette-container">
 			<span id="vignette-clock"></span>
@@ -17,10 +26,9 @@
 		<div class="time-left-container">
 			<span id="showtime-counter-clock" class="showtime-counter-clock"></span>
 		</div>
-		<div class="start-end-time-container">
-			<input id="start-time-clock" type="text" class="start-end-time">
-			<span>-</span>
-			<input id="end-time-clock" type="text" class="start-end-time">
+		<div id="start-end-time-container" class="start-end-time-container">
+			<input id="start-time-clock" type="text" class="start-end-time" disabled>
+			<input id="end-time-clock" type="text" class="start-end-time" disabled>
 		</div>
 		<div class="event">
 			<span id="event-name">Shpongle soundcheck</span>

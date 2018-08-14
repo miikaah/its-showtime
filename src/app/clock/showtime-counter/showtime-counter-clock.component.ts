@@ -5,10 +5,10 @@ import { R } from '@app/resource';
 export class ShowtimeCounterClock extends ClockBaseComponent implements Clock {
 	private startMinutes: number;
 
-	constructor(id: string, r: R) {
+	constructor(private id: string, private resources: R) {
 		super();
 		this.id = id;
-		const startTimeParts = r.startTime.split(':');
+		const startTimeParts = resources.startTime.split(':');
 		const startHours = +startTimeParts[0];
 		const startMinutes = +startTimeParts[1];
 		this.startMinutes = (startHours * 60) + startMinutes;

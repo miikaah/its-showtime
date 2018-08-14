@@ -2,6 +2,9 @@
 $color-black: #000;
 $color-white: #fff;
 $color-highlight: #f00;
+$color-event-list-bg: #2b1616;
+$color-bg: #151414;
+$color-danger: #f00;
 
 $height-time-left: 50vh;
 $height-start-end-time: 20vh;
@@ -24,8 +27,13 @@ $breakpoint-xxs: 500px;
 $breakpoint-height-xs: 639px;
 $breakpoint-height-xxs: 400px;
 
+html, body {
+	margin: 0;
+	padding: 0;
+	background-color: $color-bg;
+}
+
 body {
-	background-color: $color-black;
 	color: $color-white;
 	min-height: $height-min-container;
 }
@@ -38,7 +46,78 @@ input, body {
 		height: $height-start-end-time;
 		font-size: $font-size-lg;
 		text-align: center;
+		margin: 0 10px;
+		cursor: pointer;
 	}
+}
+
+input:disabled {
+	color: $color-black;
+}
+
+button {
+	cursor: pointer;
+}
+
+.events-container {
+	display: none;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: $color-event-list-bg;
+
+	input {
+		font-size: 1rem;
+		padding: 8px;
+	}
+
+	button {
+		font-size: 1rem;
+		margin: 20px;
+	}
+
+	input, button {
+		border-radius: 3px;
+		padding: 8px;
+	}
+
+	.close-event-list-wrapper {
+		text-align: right;
+	}
+
+	.event-list {
+		width: 80%;
+		margin: 0 auto;
+
+		.event-item {
+			margin: 8px 0;
+
+			.event-item-name {
+				width: 60%;
+				margin-right: 8px;
+			}
+
+			.event-item-start,
+			.event-item-end {
+				width: 8%;
+				text-align: center;
+				margin-right: 8px;
+			}
+
+			.remove-event-button {
+				width: 8%;
+				margin: 0 4px;
+				padding: 12px;
+				background-color: $color-danger;
+				color: $color-white;
+				border-color: $color-danger;
+			}
+		}
+	}
+}
+
+.container {
+	margin: 8px;
 }
 
 .showtime-counter-clock {
@@ -57,6 +136,7 @@ input, body {
 
 .start-end-time-container {
 	height: $height-start-end-time;
+	cursor: pointer;
 }
 
 .time-left-container,
