@@ -1,14 +1,18 @@
-import { Clock } from '@app/clock/clock.interface';
 import { ClockBaseComponent } from '@app/clock/clock-base.component';
 
-export class StaticTimeClock extends ClockBaseComponent implements Clock {
-	constructor(id: string, time: string) {
+export class StaticTimeClock extends ClockBaseComponent {
+	constructor(id: string, date: Date) {
 		super();
 		this.id = id;
-		this.render(time);
+		this.render(date);
 	}
 
-	private render(time: string) {
-		document.getElementById(this.id).value = time;
+	protected render(date: Date) {
+		(document.getElementById(this.id) as any).value = this.formatTime(date);
+	}
+
+	private formatTime(date: Date): string {
+		const time = date instanceof Date ? date : new Date();
+		return `${this.prefixNumber(time.getHours())}:${this.prefixNumber(time.getMinutes())}`;
 	}
 }

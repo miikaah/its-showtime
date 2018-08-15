@@ -8,7 +8,6 @@ import { R } from '@app/resource';
 function main() {
 	// Create resource Singleton
 	const r = R.getInstance();
-	r.startTime = '23:05';
 	// Vignette clock that shows current time
 	new CurrentTimeClock('vignette-clock');
 	// Counter that shows remaining time
@@ -16,7 +15,7 @@ function main() {
 	// Start time for the event
 	new StaticTimeClock('start-time-clock', r.startTime);
 	// End time for the event
-	new StaticTimeClock('end-time-clock', '23:59');
+	new StaticTimeClock('end-time-clock', r.endTime);
 	// Events component for editing events
 	new EventsComponent(
 		'events-container',

@@ -1,25 +1,28 @@
-import { Clock } from '@app/clock/clock.interface';
 import { ClockBaseComponent } from '@app/clock/clock-base.component';
 import { R } from '@app/resource';
 
-export class ShowtimeCounterClock extends ClockBaseComponent implements Clock {
+export class ShowtimeCounterClock extends ClockBaseComponent {
 	private startMinutes: number;
 
-	constructor(private id: string, private resources: R) {
+	constructor(id: string, private resources: R) {
 		super();
 		this.id = id;
-		const startTimeParts = resources.startTime.split(':');
-		const startHours = +startTimeParts[0];
-		const startMinutes = +startTimeParts[1];
+		const startTime = this.resources.startTime;
+		if (!startTime) {
+			this.render('<(^_^)>');
+			return this;
+		}
+		const startHours = this.resources.startTime.getHours();
+		const startMinutes = this.resources.startTime.getMinutes();
 		this.startMinutes = (startHours * 60) + startMinutes;
 		setInterval(this.setTime.bind(this), 500);
 	}
 
 	private setTime() {
-		this.render(this.getTime());
+		this.render(this.getTimeLeft());
 	}
 
-	private getTime(): string {
+	private getTimeLeft(): string {
 		const now = new Date(Date.now());
 		return this.formatTime(this.startMinutes - ((now.getHours() * 60) + now.getMinutes()));
 	}

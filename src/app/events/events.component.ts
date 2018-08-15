@@ -14,11 +14,11 @@ export class EventsComponent {
 			private closeEventListId: string,
 			private addEventId: string,
 			private resources: R) {
-		document.getElementById(openEventListId).addEventListener('click', this.toggleEventList.bind(this));
-		document.getElementById(closeEventListId).addEventListener('click', this.toggleEventList.bind(this));
-		document.getElementById(addEventId).addEventListener('click', this.addEventItem.bind(this));
-		this.containerRef = document.getElementById(containerId);
-		this.eventListRef = document.getElementById(eventListId);
+		document.getElementById(this.openEventListId).addEventListener('click', this.toggleEventList.bind(this));
+		document.getElementById(this.closeEventListId).addEventListener('click', this.toggleEventList.bind(this));
+		document.getElementById(this.addEventId).addEventListener('click', this.addEventItem.bind(this));
+		this.containerRef = document.getElementById(this.containerId);
+		this.eventListRef = document.getElementById(this.eventListId);
 	}
 
 	private toggleEventList() {
@@ -27,11 +27,12 @@ export class EventsComponent {
 	}
 
 	private addEventItem() {
-		const nextId = this.resources.events.size + 1;
-		const nextStart = this.getNextEventStartTime();
-		const nextEnd = '12:34';
-		this.addEventToMap({ id: nextId, name: '', start: nextStart, end: nextEnd });
-
+		const id = this.resources.events.size + 1;
+		const nextId = `${this.eventIdBase}${id}`;
+		const nextStart = new Date();
+		const nextEnd = new Date((new Date()).setHours(23, 59, 0, 0));
+		this.addEventToMap({ id: nextId, name: '', startDate: nextStart, endDate: nextEnd });
+		// Cteate the wrapper item
 		const eventItem = document.createElement('div');
 		eventItem.className = 'event-item';
 		eventItem.id = `${this.eventIdBase}${nextId}`;
@@ -42,11 +43,11 @@ export class EventsComponent {
 		// Create the start time input
 		const eventItemStart = document.createElement('input');
 		eventItemStart.className = 'event-item-start';
-		eventItemStart.value = nextStart;
+		eventItemStart.value = this.getFormattedDateString(nextStart);
 		// Create the end time input
 		const eventItemEnd = document.createElement('input');
 		eventItemEnd.className = 'event-item-end';
-		eventItemEnd.value = nextEnd;
+		eventItemEnd.value = this.getFormattedDateString(nextEnd);
 		// Create the event remove button
 		const eventItemRemove = document.createElement('button');
 		eventItemRemove.innerHTML = 'X';
@@ -61,14 +62,19 @@ export class EventsComponent {
 		this.eventListRef.appendChild(eventItem);
 	}
 
-	private getNextEventStartTime(): string {
-		const lastEvent = Array.from(this.resources.events.values()).pop();
-		if (!lastEvent || lastEvent.end === '23:59') return '00:00';
-		console.log(lastEvent.end);
-		const lastEventParts = lastEvent.end.split(':');
-		const minutes = parseInt(lastEventParts.pop(), 10);
-		return `${lastEventParts[0]}:${minutes + 1}`;
+	private getFormattedDateString(date: Date): string {
+		return `${date.getDay()}.${date.getMonth()}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
 	}
+
+	// private getNextEventStartTime(date: string): string {
+	// 	const lastEvent = Array.from(this.resources.events.values()).pop();
+	// 	if (!lastEvent || lastEvent.end.split(' ').pop() === '23:59') return `${date} 00:00`;
+	// 	console.log(lastEvent.end);
+	// 	const lastEventParts = lastEvent.end.split(' ').pop().split(':');
+	// 	const minutes = parseInt(lastEventParts.pop(), 10);
+	// 	const baseStartTime = `${date} ${lastEventParts[0]}:`;
+	// 	return minutes === 59 ? `${baseStartTime}${minutes}` : `${minutes + 1}`;
+	// }
 
 	private addEventToMap(event: Event) {
 		this.resources.addEvent = { id: event.id, event };

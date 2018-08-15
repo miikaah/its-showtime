@@ -1,12 +1,11 @@
 export interface Event {
 	id: string;
 	name: string;
-	start: string;
-	end: string;
+	startDate: Date;
+	endDate: Date;
 }
 
 export interface Resources {
-	startTime?: string;
 	events?: Map<string, Event>;
 }
 
@@ -16,8 +15,9 @@ export class R {
 
 	private constructor() {
 		this.modifyResources({
-			startTime: '00:00',
-			events: new Map<string, Event>();
+			events: new Map<string, Event>([
+				['1', { id: '1', name: '', startDate: new Date(2018, 7, 15, 18), endDate: new Date(2018, 7, 15, 19)}]
+			])
 		});
 	}
 
@@ -30,12 +30,30 @@ export class R {
 		this.resources = Object.freeze({ ...this.resources, ...resources });
 	}
 
-	get startTime(): string {
-		return this.resources.startTime;
+	get startTime(): Date {
+		return this.resources.events.size === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).startDate;
 	}
 
-	set startTime(time: string) {
-		this.modifyResources({ startTime: time });
+	get endTime(): Date {
+		return this.resources.events.size === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).endDate;
+	}
+
+	private getNextOrCurrentEvent(): Event {
+		const now = (new Date()).getTime();
+		// Map is sorted by startDate
+		for (let i = 0; i < this.resources.events.size; i++) {
+			const event = this.resources.events.values().next().value;
+			if (this.hasUpcomingEvent(event, now)) return event;
+			if (this.hasCurrentEvent(event, now)) return event;
+		}
+	}
+
+	private hasUpcomingEvent(event: Event, now: number): boolean {
+		return event.startDate.getTime() > now;
+	}
+
+	private hasCurrentEvent(event: Event, now: number): boolean {
+		return event.startDate.getTime() <= now && event.endDate.getTime() >= now;
 	}
 
 	get events(): Map<string, Event> {

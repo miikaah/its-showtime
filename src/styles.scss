@@ -93,13 +93,13 @@ button {
 			margin: 8px 0;
 
 			.event-item-name {
-				width: 60%;
+				width: 42%;
 				margin-right: 8px;
 			}
 
 			.event-item-start,
 			.event-item-end {
-				width: 8%;
+				width: 18%;
 				text-align: center;
 				margin-right: 8px;
 			}
@@ -111,6 +111,12 @@ button {
 				background-color: $color-danger;
 				color: $color-white;
 				border-color: $color-danger;
+			}
+		}
+
+		.event-list-tools {
+			button {
+				margin-left: 0;
 			}
 		}
 	}
