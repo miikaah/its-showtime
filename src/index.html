@@ -8,9 +8,13 @@
 	<link href="styles.css" rel="stylesheet"/>
 </head>
 <body>
+  <div class="vignette-container">
+    <span id="vignette-clock"></span>
+  </div>
 	<div id="events-container" class="events-container">
 		<div class="close-event-list-wrapper">
-			<button id="close-event-list-button" type="button" class="close-event-list-button">Close Event List</button>
+			<button id="save-event-list-button" type="button" class="save-event-list-button">Save</button>
+			<button id="close-event-list-button" type="button" class="close-event-list-button">Save & Close</button>
 		</div>
 		<div id="event-list" class="event-list">
 			<div id="event-item-wrapper" class="event-item-wrapper"></div>
@@ -20,9 +24,6 @@
 		</div>
 	</div>
 	<div class="container">
-		<div class="vignette-container">
-			<span id="vignette-clock"></span>
-		</div>
 		<div class="time-left-container">
 			<span id="showtime-counter-clock" class="showtime-counter-clock"></span>
 		</div>

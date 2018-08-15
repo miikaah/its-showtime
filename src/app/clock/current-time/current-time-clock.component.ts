@@ -1,4 +1,5 @@
 import { ClockBaseComponent } from '@app/clock/clock-base.component';
+import { prefixNumber } from '@app/utils';
 
 export class CurrentTimeClock extends ClockBaseComponent {
 	constructor(id: string) {
@@ -8,7 +9,7 @@ export class CurrentTimeClock extends ClockBaseComponent {
 	}
 
 	private setTime() {
-		const now = new Date(Date.now());
-		this.render(`${this.prefixNumber(now.getHours())}:${this.prefixNumber(now.getMinutes())}`);
+		const now = new Date();
+		this.render(`${prefixNumber(now.getHours())}:${prefixNumber(now.getMinutes())}`);
 	}
 }

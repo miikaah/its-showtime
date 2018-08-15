@@ -22,6 +22,7 @@ function main() {
 		'event-item-wrapper',
 		'start-end-time-container',
 		'close-event-list-button',
+		'save-event-list-button',
 		'event-add',
 		r
 	);

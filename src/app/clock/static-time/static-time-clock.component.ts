@@ -1,4 +1,5 @@
 import { ClockBaseComponent } from '@app/clock/clock-base.component';
+import { prefixNumber } from '@app/utils';
 
 export class StaticTimeClock extends ClockBaseComponent {
 	constructor(id: string, date: Date) {
@@ -13,6 +14,6 @@ export class StaticTimeClock extends ClockBaseComponent {
 
 	private formatTime(date: Date): string {
 		const time = date instanceof Date ? date : new Date();
-		return `${this.prefixNumber(time.getHours())}:${this.prefixNumber(time.getMinutes())}`;
+		return `${prefixNumber(time.getHours())}:${prefixNumber(time.getMinutes())}`;
 	}
 }

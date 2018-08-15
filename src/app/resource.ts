@@ -16,7 +16,9 @@ export class R {
 	private constructor() {
 		this.modifyResources({
 			events: new Map<string, Event>([
-				['1', { id: '1', name: '', startDate: new Date(2018, 7, 15, 18), endDate: new Date(2018, 7, 15, 19)}]
+				['event-1',
+					{ id: 'event-1', name: 'Shpongle', startDate: new Date(2018, 7, 15, 18), endDate: new Date(2018, 7, 15, 19)}
+				]
 			])
 		});
 	}
@@ -30,21 +32,21 @@ export class R {
 		this.resources = Object.freeze({ ...this.resources, ...resources });
 	}
 
-	get startTime(): Date {
+	get startTime(): Date | undefined {
 		return this.resources.events.size === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).startDate;
 	}
 
-	get endTime(): Date {
+	get endTime(): Date | undefined {
 		return this.resources.events.size === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).endDate;
 	}
 
-	private getNextOrCurrentEvent(): Event {
+	private getNextOrCurrentEvent(): Event | undefined {
 		const now = (new Date()).getTime();
-		// Map is sorted by startDate
+		// TODO: Map is sorted by startDate
 		for (let i = 0; i < this.resources.events.size; i++) {
 			const event = this.resources.events.values().next().value;
-			if (this.hasUpcomingEvent(event, now)) return event;
 			if (this.hasCurrentEvent(event, now)) return event;
+			if (this.hasUpcomingEvent(event, now)) return event;
 		}
 	}
 
@@ -58,6 +60,10 @@ export class R {
 
 	get events(): Map<string, Event> {
 		return this.resources.events;
+	}
+
+	set events(events: Map<string, Event>) {
+		this.modifyResources({ events });
 	}
 
 	set addEvent(options: { id: string, event: Event }) {
