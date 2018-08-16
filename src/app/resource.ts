@@ -6,45 +6,62 @@ export interface Event {
 }
 
 export interface Resources {
-	events?: Map<string, Event>;
+	events: Event[];
 }
 
 export class R {
-	private static instance: R;
-	private resources: Resources;
 
 	private constructor() {
-		this.modifyResources({
-			events: new Map<string, Event>([
-				['event-1',
-					{ id: 'event-1', name: 'Shpongle', startDate: new Date(2018, 7, 15, 18), endDate: new Date(2018, 7, 15, 19)}
-				]
-			])
-		});
+		// Read resources from local storage
+		this.resources = JSON.parse(localStorage.getItem('resources')) || { events: [] };
+		this.convertEventStringsToDates();
 	}
+
+	get startTime(): Date | undefined {
+		return this.eventsSize === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).startDate;
+	}
+
+	get endTime(): Date | undefined {
+		return this.eventsSize === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).endDate;
+	}
+
+	get eventsSize(): number {
+		return this.resources.events.length;
+	}
+
+	get events(): Event[] {
+		return this.resources.events;
+	}
+
+	set events(events: Event[]) {
+		this.modifyResources({ events });
+	}
+
+	set addEvent(event: Event) {
+		this.modifyResources({ events: [...this.resources.events, event] });
+	}
+
+	set removeEvent(id: string) {
+		this.modifyResources({ events: this.resources.events.filter((e) => e.id !== id) });
+	}
+	private static instance: R;
+	private resources: Resources;
 
 	static getInstance() {
 		if (!R.instance) R.instance = new R();
 		return R.instance;
 	}
 
-	private modifyResources(resources: Resources) {
-		this.resources = Object.freeze({ ...this.resources, ...resources });
-	}
-
-	get startTime(): Date | undefined {
-		return this.resources.events.size === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).startDate;
-	}
-
-	get endTime(): Date | undefined {
-		return this.resources.events.size === 0 ? new Date() : (this.getNextOrCurrentEvent() || {} as any).endDate;
+	private convertEventStringsToDates() {
+		for (const event of this.resources.events) {
+			event.startDate = new Date(event.startDate);
+			event.endDate = new Date(event.endDate);
+		}
 	}
 
 	private getNextOrCurrentEvent(): Event | undefined {
 		const now = (new Date()).getTime();
-		// TODO: Map is sorted by startDate
-		for (let i = 0; i < this.resources.events.size; i++) {
-			const event = this.resources.events.values().next().value;
+		for (const event of this.resources.events) {
 			if (this.hasCurrentEvent(event, now)) return event;
 			if (this.hasUpcomingEvent(event, now)) return event;
 		}
@@ -58,19 +75,14 @@ export class R {
 		return event.startDate.getTime() <= now && event.endDate.getTime() >= now;
 	}
 
-	get events(): Map<string, Event> {
-		return this.resources.events;
+	private modifyResources(resources: Resources) {
+		this.resources = Object.freeze({ ...this.resources, ...resources });
+		this.sortEventsByStartDate();
+		// Save resources to local storage
+		localStorage.setItem('resources', JSON.stringify(this.resources));
 	}
 
-	set events(events: Map<string, Event>) {
-		this.modifyResources({ events });
-	}
-
-	set addEvent(options: { id: string, event: Event }) {
-		this.resources.events.set(options.id, options.event);
-	}
-
-	set removeEvent(id: string) {
-		this.resources.events.delete(id);
+	private sortEventsByStartDate() {
+		this.resources.events.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
 	}
 }

@@ -32,7 +32,7 @@ export class EventsComponent {
 	}
 
 	private addEventItem() {
-		const id = this.resources.events.size + 1;
+		const id = this.resources.eventsSize + 1;
 		const nextId = `${this.eventIdBase}${id}`;
 		const startDate = new Date();
 		const endDate = new Date((new Date()).setHours(23, 59, 0, 0));
@@ -81,18 +81,8 @@ export class EventsComponent {
 			date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 	}
 
-	// private getNextEventStartTime(date: string): string {
-	// 	const lastEvent = Array.from(this.resources.events.values()).pop();
-	// 	if (!lastEvent || lastEvent.end.split(' ').pop() === '23:59') return `${date} 00:00`;
-	// 	console.log(lastEvent.end);
-	// 	const lastEventParts = lastEvent.end.split(' ').pop().split(':');
-	// 	const minutes = parseInt(lastEventParts.pop(), 10);
-	// 	const baseStartTime = `${date} ${lastEventParts[0]}:`;
-	// 	return minutes === 59 ? `${baseStartTime}${minutes}` : `${minutes + 1}`;
-	// }
-
 	private addEventToMap(event: Event) {
-		this.resources.addEvent = { id: event.id, event };
+		this.resources.addEvent = event;
 	}
 
 	private removeEventIdFromMap(event) {
@@ -101,11 +91,12 @@ export class EventsComponent {
 	}
 
 	private saveEventList() {
-		const events = new Map<string, Event>();
+		const events: Event[] = [];
 		this.eventListRef.childNodes.forEach((node) => {
-			events.set(node.id, this.getEventFromElement(node.id, node));
+			events.push(this.getEventFromElement(node.id, node));
 		});
 		this.resources.events = events;
+		this.render();
 	}
 
 	private getEventFromElement(id: string, el): Event {
@@ -127,8 +118,8 @@ export class EventsComponent {
 		// Remove existing nodes
 		while (this.eventListRef.firstChild) this.eventListRef.removeChild(this.eventListRef.firstChild);
 		// Render events to list
-		for (let i = 0; i < this.resources.events.size; i++) {
-			const event = this.resources.events.values().next().value;
+		for (const key of Object.keys(this.resources.events)) {
+			const event = this.resources.events[key];
 			this.renderEventItem(event, `${this.removeEventIdBase}${event.id.split('-').pop()}`);
 		}
 	}
