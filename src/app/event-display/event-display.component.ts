@@ -14,16 +14,20 @@ export class EventDisplayComponent {
 	}
 
 	render() {
-		this.currentEventRef.innerHTML = this.getCurrentEventName();
-		this.nextEventRef.innerHTML = this.resources.eventsSize < 2 ? '' : this.getNextEventName();
+		this.currentEventRef.innerHTML = this.getCurrentOrNextEventName();
+		this.nextEventRef.innerHTML = this.getCurrentEventName() ? this.getNextEventName() : '';
 	}
 
 	update() {
 		this.render();
 	}
 
+	private getCurrentOrNextEventName(): string {
+		return this.getCurrentEventName() || this.getNextEventName();
+	}
+
 	private getCurrentEventName(): string {
-		return (this.resources.currentEvent || {} as any).name || this.getNextEventName();
+		return (this.resources.currentEvent || {} as any).name;
 	}
 
 	private getNextEventName(): string {

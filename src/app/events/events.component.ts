@@ -1,6 +1,5 @@
 import { R, Event } from '@app/resource';
 import { prefixNumber } from '@app/utils';
-import { Observer } from '@app/observer.interface';
 
 export class EventsComponent {
 	private isEventListVisible = false;
@@ -8,7 +7,6 @@ export class EventsComponent {
 	private eventListRef: any;
 	private eventIdBase = 'event-';
 	private removeEventIdBase = 'remove-event-';
-	private observers: Observer[] = [];
 
 	constructor(
 			private containerId: string,
@@ -27,10 +25,6 @@ export class EventsComponent {
 		this.render();
 	}
 
-	registerObservers(observers: Observer[]) {
-		this.observers = [...this.observers, ...observers];
-	}
-
 	private toggleEventList() {
 		this.isEventListVisible = !this.isEventListVisible;
 		this.containerRef.style.display = this.isEventListVisible ? 'block' : 'none';
@@ -41,7 +35,7 @@ export class EventsComponent {
 		const id = (new Date()).getTime();
 		const nextId = `${this.eventIdBase}${id}`;
 		const startDate = this.getNextStartDate();
-		const endDate = new Date(new Date(startDate).setHours(startDate.getHours() + 1));
+		const endDate = new Date(new Date(startDate).setMinutes(startDate.getMinutes() + 59, 59, 999));
 		this.addEventToMap({ id: nextId, name: '', startDate, endDate });
 		this.renderEventItem(
 			{ id: nextId, name: '', startDate, endDate },
@@ -80,7 +74,7 @@ export class EventsComponent {
 		eventItemRemove.className = 'remove-event-button';
 		eventItemRemove.type = 'button';
 		eventItemRemove.id = removeId;
-		eventItemRemove.addEventListener('click', this.removeEventIdFromMap.bind(this));
+		eventItemRemove.addEventListener('click', this.removeEventFromMap.bind(this));
 		// Append the new elements
 		eventItem.appendChild(eventItemName);
 		eventItem.appendChild(eventItemStart);
@@ -98,7 +92,7 @@ export class EventsComponent {
 		this.resources.addEvent = event;
 	}
 
-	private removeEventIdFromMap(event) {
+	private removeEventFromMap(event) {
 		this.resources.removeEvent = event.target.id.split('remove-').pop();
 		this.render();
 	}
@@ -110,22 +104,24 @@ export class EventsComponent {
 		});
 		this.resources.events = events;
 		this.render();
-		this.notifyObservers();
 	}
 
 	private getEventFromElement(id: string, el): Event {
 		return {
 			id,
 			name: el.querySelector('.event-item-name').value,
-			startDate: this.parseDate(el.querySelector('.event-item-start').value),
-			endDate: this.parseDate(el.querySelector('.event-item-end').value)
+			startDate: this.parseDate(el.querySelector('.event-item-start').value, 'start'),
+			endDate: this.parseDate(el.querySelector('.event-item-end').value, 'end')
 		};
 	}
 
-	private parseDate(dateString: string): Date {
+	private parseDate(dateString: string, type: 'start' | 'end'): Date {
 		const time = dateString.split(' ')[0].split(':');
 		const date = dateString.split(' ').pop().split('.');
-		return new Date(+date[2], +date[1] - 1, +date[0], +time[0], +time[1]);
+		// Year, month index, day, hour, minute, seconds, milliseconds
+		return type === 'start' ?
+			new Date(+date[2], +date[1] - 1, +date[0], +time[0], +time[1]) :
+			new Date(+date[2], +date[1] - 1, +date[0], +time[0], +time[1], 59, 999);
 	}
 
 	private render() {
@@ -136,9 +132,5 @@ export class EventsComponent {
 			const event = this.resources.events[key];
 			this.renderEventItem(event, `${this.removeEventIdBase}${event.id.split('-').pop()}`);
 		}
-	}
-
-	private notifyObservers() {
-		this.observers.forEach((o) => o.update());
 	}
 }

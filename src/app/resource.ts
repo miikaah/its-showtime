@@ -1,3 +1,5 @@
+import { Observer } from '@app/observer.interface';
+
 export interface Event {
 	id: string;
 	name: string;
@@ -15,6 +17,7 @@ export class R {
 		// Read resources from local storage
 		this.resources = JSON.parse(localStorage.getItem('resources')) || { events: [] };
 		this.convertEventStringsToDates();
+		setInterval(this.update.bind(this), 500);
 	}
 
 	get startTime(): Date | undefined {
@@ -37,6 +40,10 @@ export class R {
 		this.modifyResources({ events });
 	}
 
+	get hasActualEvents(): boolean {
+		return !!(this.getCurrentEvent() || this.getNextEvent());
+	}
+
 	get currentEvent(): Event {
 		return this.getCurrentEvent();
 	}
@@ -53,12 +60,40 @@ export class R {
 		this.modifyResources({ events: this.resources.events.filter((e) => e.id !== id) });
 	}
 
+	get getLastEvent(): Event | undefined {
+		const length = this.resources.events.length;
+		return length ? this.resources.events[length - 1] : undefined;
+	}
+
 	private static instance: R;
+	private observers: Observer[] = [];
+	private nextOrCurrentEvent: Event;
+	private previousEvent: Event;
+	private isInitialized: boolean;
 	private resources: Resources;
 
 	static getInstance() {
 		if (!R.instance) R.instance = new R();
 		return R.instance;
+	}
+
+	registerObservers(observers: Observer[]) {
+		this.observers = [...this.observers, ...observers];
+	}
+
+	private update() {
+		this.nextOrCurrentEvent = this.getNextOrCurrentEvent();
+		// No new events
+		if (!this.nextOrCurrentEvent) return;
+		// Register first event
+		if (!this.isInitialized) {
+			this.isInitialized = true;
+			this.previousEvent = this.nextOrCurrentEvent;
+		}
+		// If event has changed notify observers
+		if (this.previousEvent.id !== this.nextOrCurrentEvent.id)
+			this.notifyObservers();
+		this.previousEvent = this.nextOrCurrentEvent;
 	}
 
 	private convertEventStringsToDates() {
@@ -90,11 +125,6 @@ export class R {
 		}
 	}
 
-	get getLastEvent(): Event | undefined {
-		const length = this.resources.events.length;
-		return length ? this.resources.events[length - 1] : undefined;
-	}
-
 	private hasCurrentEvent(event: Event, now: number): boolean {
 		return event.startDate.getTime() <= now && event.endDate.getTime() >= now;
 	}
@@ -106,11 +136,16 @@ export class R {
 	private modifyResources(resources: Resources) {
 		this.resources = Object.freeze({ ...this.resources, ...resources });
 		this.sortEventsByStartDate();
+		this.notifyObservers();
 		// Save resources to local storage
 		localStorage.setItem('resources', JSON.stringify(this.resources));
 	}
 
 	private sortEventsByStartDate() {
 		this.resources.events.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+	}
+
+	private notifyObservers() {
+		this.observers.forEach((o) => o.update());
 	}
 }

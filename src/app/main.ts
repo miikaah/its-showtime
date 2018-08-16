@@ -23,8 +23,9 @@ function main() {
 	// Event display that displays events name
 	const eventDisplay = new EventDisplayComponent('event-name-current', 'event-name-next', r);
 	const eventDisplayObserver = new ResourceObserver(eventDisplay.update.bind(eventDisplay));
+	r.registerObservers([startTimeObserver, endTimeObserver, eventDisplayObserver]);
 	// Events component for editing events
-	const events = new EventsComponent(
+	new EventsComponent(
 		'events-container',
 		'event-item-wrapper',
 		'start-end-time-container',
@@ -33,7 +34,6 @@ function main() {
 		'event-add',
 		r
 	);
-	events.registerObservers([startTimeObserver, endTimeObserver, eventDisplayObserver]);
 }
 
 main();

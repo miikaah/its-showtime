@@ -8,22 +8,34 @@ export class ShowtimeCounterClock extends ClockBaseComponent {
 	}
 
 	private setTime() {
-		this.resources.eventsSize === 0 ? this.render('<(^_^)>') : this.render(this.getTimeLeft());
+		this.resources.hasActualEvents ? this.render(this.getTimeLeft()) : this.render('<(^_^)>');
 	}
 
 	private getTimeLeft(): string {
-		const now = new Date(Date.now());
 		if (!this.resources.startTime) return;
-		const startHours = this.resources.startTime.getHours();
-		const startMinutes = (startHours * 60) + this.resources.startTime.getMinutes();
-		return this.formatTime(startMinutes - ((now.getHours() * 60) + now.getMinutes()));
+		const seconds = this.getSecondsLeft();
+		// Start countdown by seconds at 60 sec
+		const minutes = seconds > 60 && seconds < 90 ? Math.ceil(seconds / 60) : Math.round(seconds / 60);
+		return this.formatTime(minutes);
 	}
 
 	private formatTime(totalMinutes: number): string {
-		const hours = Math.floor(totalMinutes / 60);
+		const hours = Math.round(totalMinutes / 60);
 		const minutes = totalMinutes % 60;
+		const seconds = minutes < 2 ? Math.ceil(this.getSecondsLeft()) : NaN;
+		if (seconds <= 60) return `${seconds} s`;
 		if (hours < 1) return `${minutes} min`;
 		if (hours < 2) return `${hours} h ${minutes} min`;
+		if (hours >= 24 && hours < 48) return '1 day';
+		if (hours >= 48) return 'Many days';
 		return `${hours} h ${minutes} min`;
+	}
+
+	private getSecondsLeft(): number {
+		const currentEvent = this.resources.currentEvent;
+		const time = currentEvent ?
+			currentEvent.startDate.getTime() : this.resources.nextEvent.startDate.getTime();
+		const now = (new Date()).getTime();
+		return (currentEvent ? currentEvent.endDate.getTime() - now : time - now) / 1000;
 	}
 }
