@@ -32,15 +32,22 @@ export class EventsComponent {
 	}
 
 	private addEventItem() {
-		const id = this.resources.eventsSize + 1;
+		const id = (new Date()).getTime();
 		const nextId = `${this.eventIdBase}${id}`;
-		const startDate = new Date();
-		const endDate = new Date((new Date()).setHours(23, 59, 0, 0));
+		const startDate = this.getNextStartDate();
+		const endDate = new Date(new Date(startDate).setHours(startDate.getHours() + 1));
 		this.addEventToMap({ id: nextId, name: '', startDate, endDate });
 		this.renderEventItem(
 			{ id: nextId, name: '', startDate, endDate },
 			`${this.removeEventIdBase}${id}`
 		);
+	}
+
+	private getNextStartDate(): Date {
+		const event = this.resources.getLastEvent;
+		const date = event ? new Date(event.endDate.getTime()) : new Date();
+		if (event) date.setMinutes(date.getMinutes() + 1);
+		return date;
 	}
 
 	private renderEventItem(event: Event, removeId: string) {

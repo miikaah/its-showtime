@@ -44,6 +44,7 @@ export class R {
 	set removeEvent(id: string) {
 		this.modifyResources({ events: this.resources.events.filter((e) => e.id !== id) });
 	}
+
 	private static instance: R;
 	private resources: Resources;
 
@@ -67,12 +68,17 @@ export class R {
 		}
 	}
 
-	private hasUpcomingEvent(event: Event, now: number): boolean {
-		return event.startDate.getTime() > now;
+	get getLastEvent(): Event | undefined {
+		const length = this.resources.events.length;
+		return length ? this.resources.events[length - 1] : undefined;
 	}
 
 	private hasCurrentEvent(event: Event, now: number): boolean {
 		return event.startDate.getTime() <= now && event.endDate.getTime() >= now;
+	}
+
+	private hasUpcomingEvent(event: Event, now: number): boolean {
+		return event.startDate.getTime() > now;
 	}
 
 	private modifyResources(resources: Resources) {
