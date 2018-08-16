@@ -2,29 +2,21 @@ import { ClockBaseComponent } from '@app/clock/clock-base.component';
 import { R } from '@app/resource';
 
 export class ShowtimeCounterClock extends ClockBaseComponent {
-	private startMinutes: number;
-
-	constructor(id: string, private resources: R) {
+	constructor(protected id: string, private resources: R) {
 		super();
-		this.id = id;
-		const startTime = this.resources.startTime;
-		if (!startTime) {
-			this.render('<(^_^)>');
-			return this;
-		}
-		const startHours = this.resources.startTime.getHours();
-		const startMinutes = this.resources.startTime.getMinutes();
-		this.startMinutes = (startHours * 60) + startMinutes;
 		setInterval(this.setTime.bind(this), 500);
 	}
 
 	private setTime() {
-		this.render(this.getTimeLeft());
+		this.resources.eventsSize === 0 ? this.render('<(^_^)>') : this.render(this.getTimeLeft());
 	}
 
 	private getTimeLeft(): string {
 		const now = new Date(Date.now());
-		return this.formatTime(this.startMinutes - ((now.getHours() * 60) + now.getMinutes()));
+		if (!this.resources.startTime) return;
+		const startHours = this.resources.startTime.getHours();
+		const startMinutes = (startHours * 60) + this.resources.startTime.getMinutes();
+		return this.formatTime(startMinutes - ((now.getHours() * 60) + now.getMinutes()));
 	}
 
 	private formatTime(totalMinutes: number): string {

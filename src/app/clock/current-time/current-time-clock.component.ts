@@ -2,9 +2,8 @@ import { ClockBaseComponent } from '@app/clock/clock-base.component';
 import { prefixNumber } from '@app/utils';
 
 export class CurrentTimeClock extends ClockBaseComponent {
-	constructor(id: string) {
+	constructor(protected id: string) {
 		super();
-		this.id = id;
 		setInterval(this.setTime.bind(this), 500);
 	}
 

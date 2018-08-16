@@ -146,9 +146,10 @@ button {
 .vignette-container {
 	text-align: center;
 	position: absolute;
-	z-index: 1000;
-	left: 48.3%;
+	left: 50%;
+	transform: translateX(-50%);
 	margin-top: $margin-top;
+	z-index: 1000;
 }
 
 .start-end-time-container {
@@ -167,9 +168,13 @@ button {
 .event {
 	text-align: center;
 	padding: 20px;
-	font-size: $font-size-xxs - 1.5rem;
 	max-height: 7vh;
 	overflow: hidden;
+	font-size: .75rem;
+
+	.event-name-current {
+		font-size: $font-size-xxs - 1.5rem;
+	}
 }
 
 @media screen and (max-width: $breakpoint-xxl) {
@@ -279,6 +284,9 @@ button {
 
 	.event {
 		padding: 12px;
-		font-size: 1rem;
+
+		.event-name-current {
+			font-size: 1rem;
+		}
 	}
 }

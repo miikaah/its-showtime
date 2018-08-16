@@ -1,11 +1,15 @@
 import { ClockBaseComponent } from '@app/clock/clock-base.component';
 import { prefixNumber } from '@app/utils';
+import { R } from '@app/resource';
 
 export class StaticTimeClock extends ClockBaseComponent {
-	constructor(id: string, date: Date) {
+	constructor(protected id: string, private time: 'startTime' | 'endTime', private resources: R) {
 		super();
-		this.id = id;
-		this.render(date);
+		this.update();
+	}
+
+	update() {
+		this.render(this.resources[this.time]);
 	}
 
 	protected render(date: Date) {

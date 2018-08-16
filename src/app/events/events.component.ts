@@ -1,5 +1,6 @@
 import { R, Event } from '@app/resource';
 import { prefixNumber } from '@app/utils';
+import { Observer } from '@app/observer.interface';
 
 export class EventsComponent {
 	private isEventListVisible = false;
@@ -7,6 +8,7 @@ export class EventsComponent {
 	private eventListRef: any;
 	private eventIdBase = 'event-';
 	private removeEventIdBase = 'remove-event-';
+	private observers: Observer[] = [];
 
 	constructor(
 			private containerId: string,
@@ -23,6 +25,10 @@ export class EventsComponent {
 		this.containerRef = document.getElementById(this.containerId);
 		this.eventListRef = document.getElementById(this.eventListId);
 		this.render();
+	}
+
+	registerObservers(observers: Observer[]) {
+		this.observers = [...this.observers, ...observers];
 	}
 
 	private toggleEventList() {
@@ -104,6 +110,7 @@ export class EventsComponent {
 		});
 		this.resources.events = events;
 		this.render();
+		this.notifyObservers();
 	}
 
 	private getEventFromElement(id: string, el): Event {
@@ -129,5 +136,9 @@ export class EventsComponent {
 			const event = this.resources.events[key];
 			this.renderEventItem(event, `${this.removeEventIdBase}${event.id.split('-').pop()}`);
 		}
+	}
+
+	private notifyObservers() {
+		this.observers.forEach((o) => o.update());
 	}
 }

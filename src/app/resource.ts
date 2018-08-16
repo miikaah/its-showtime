@@ -37,6 +37,14 @@ export class R {
 		this.modifyResources({ events });
 	}
 
+	get currentEvent(): Event {
+		return this.getCurrentEvent();
+	}
+
+	get nextEvent(): Event {
+		return this.getNextEvent();
+	}
+
 	set addEvent(event: Event) {
 		this.modifyResources({ events: [...this.resources.events, event] });
 	}
@@ -64,6 +72,20 @@ export class R {
 		const now = (new Date()).getTime();
 		for (const event of this.resources.events) {
 			if (this.hasCurrentEvent(event, now)) return event;
+			if (this.hasUpcomingEvent(event, now)) return event;
+		}
+	}
+
+	private getCurrentEvent(): Event | undefined {
+		const now = (new Date()).getTime();
+		for (const event of this.resources.events) {
+			if (this.hasCurrentEvent(event, now)) return event;
+		}
+	}
+
+	private getNextEvent(): Event | undefined {
+		const now = (new Date()).getTime();
+		for (const event of this.resources.events) {
 			if (this.hasUpcomingEvent(event, now)) return event;
 		}
 	}
