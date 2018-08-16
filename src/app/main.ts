@@ -5,6 +5,7 @@ import { ShowtimeCounterClock } from '@app/clock/showtime-counter/showtime-count
 import { ResourceObserver } from '@app/resource-observer';
 import { EventsComponent } from '@app/events/events.component';
 import { EventDisplayComponent } from '@app/event-display/event-display.component';
+import { StyleChanger } from '@app/style-changer/style-changer.component';
 import { R } from '@app/resource';
 
 function main() {
@@ -23,7 +24,6 @@ function main() {
 	// Event display that displays events name
 	const eventDisplay = new EventDisplayComponent('event-name-current', 'event-name-next', r);
 	const eventDisplayObserver = new ResourceObserver(eventDisplay.update.bind(eventDisplay));
-	r.registerObservers([startTimeObserver, endTimeObserver, eventDisplayObserver]);
 	// Events component for editing events
 	new EventsComponent(
 		'events-container',
@@ -34,6 +34,15 @@ function main() {
 		'event-add',
 		r
 	);
+	// Style changer component that changes CSS styles dynamically
+	const styleChanger = new StyleChanger(
+		'showtime-counter-clock',
+		'event-name-current',
+		r
+	);
+	styleChanger.update();
+	const styleChangerObserver = new ResourceObserver(styleChanger.update.bind(styleChanger));
+	r.registerObservers([startTimeObserver, endTimeObserver, eventDisplayObserver, styleChangerObserver]);
 }
 
 main();

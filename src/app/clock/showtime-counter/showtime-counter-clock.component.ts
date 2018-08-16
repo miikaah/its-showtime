@@ -20,12 +20,13 @@ export class ShowtimeCounterClock extends ClockBaseComponent {
 	}
 
 	private formatTime(totalMinutes: number): string {
-		const hours = Math.round(totalMinutes / 60);
+		const hours = Math.floor(totalMinutes / 60);
 		const minutes = totalMinutes % 60;
 		const seconds = minutes < 2 ? Math.ceil(this.getSecondsLeft()) : NaN;
 		if (seconds <= 60) return `${seconds} s`;
 		if (hours < 1) return `${minutes} min`;
-		if (hours < 2) return `${hours} h ${minutes} min`;
+		if (hours === 1 && hours < 2 && minutes === 0) return `${hours} h`;
+		if (hours === 1 && hours < 2) return `${hours} h ${minutes} min`;
 		if (hours >= 24 && hours < 48) return '1 day';
 		if (hours >= 48) return 'Many days';
 		return `${hours} h ${minutes} min`;

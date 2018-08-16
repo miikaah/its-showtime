@@ -12,7 +12,6 @@ export interface Resources {
 }
 
 export class R {
-
 	private constructor() {
 		// Read resources from local storage
 		this.resources = JSON.parse(localStorage.getItem('resources')) || { events: [] };
@@ -44,11 +43,11 @@ export class R {
 		return !!(this.getCurrentEvent() || this.getNextEvent());
 	}
 
-	get currentEvent(): Event {
+	get currentEvent(): Event | undefined {
 		return this.getCurrentEvent();
 	}
 
-	get nextEvent(): Event {
+	get nextEvent(): Event | undefined {
 		return this.getNextEvent();
 	}
 
@@ -67,9 +66,6 @@ export class R {
 
 	private static instance: R;
 	private observers: Observer[] = [];
-	private nextOrCurrentEvent: Event;
-	private previousEvent: Event;
-	private isInitialized: boolean;
 	private resources: Resources;
 
 	static getInstance() {
@@ -82,18 +78,8 @@ export class R {
 	}
 
 	private update() {
-		this.nextOrCurrentEvent = this.getNextOrCurrentEvent();
-		// No new events
-		if (!this.nextOrCurrentEvent) return;
-		// Register first event
-		if (!this.isInitialized) {
-			this.isInitialized = true;
-			this.previousEvent = this.nextOrCurrentEvent;
-		}
-		// If event has changed notify observers
-		if (this.previousEvent.id !== this.nextOrCurrentEvent.id)
-			this.notifyObservers();
-		this.previousEvent = this.nextOrCurrentEvent;
+		// TODO: Optimize
+		this.notifyObservers();
 	}
 
 	private convertEventStringsToDates() {
