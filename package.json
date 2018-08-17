@@ -4,7 +4,7 @@
   "description": "Show time counter clock and event list",
   "main": "index.js",
   "author": "miika.henttonen@gmail.com",
-  "license": "ISC",
+  "license": "WTFPL",
   "scripts": {
     "test": "jest --coverage",
     "test:w": "jest --coverage --watch",
