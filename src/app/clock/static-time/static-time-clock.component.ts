@@ -9,11 +9,7 @@ export class StaticTimeClock extends ClockBaseComponent {
 	}
 
 	update() {
-		this.render(this.resources[this.time]);
-	}
-
-	protected render(date: Date) {
-		(document.getElementById(this.id) as any).value = this.formatTime(date);
+		this.render(this.formatTime(this.resources[this.time]));
 	}
 
 	private formatTime(date: Date): string {

@@ -13,7 +13,6 @@ export class StyleChanger {
 	) {}
 
 	update() {
-		console.log('update');
 		if (this.resources.currentEvent) {
 			document.getElementById(this.showtimeId).style.color = this.COLOR_HIGHLIGHT;
 			document.getElementById(this.eventNameId).style.color = this.COLOR_HIGHLIGHT;

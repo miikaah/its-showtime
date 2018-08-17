@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const config = require('./webpack.config');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
+const htmlReplace = require('gulp-html-replace');
 const rimraf = require('rimraf');
 const path = require('path');
 const browserSync = require('browser-sync').create();
@@ -29,13 +30,18 @@ function webpackCb(err, stats) {
 
 function makeSass() {
 	return gulp.src(STYLES)
-		.pipe(sass().on('error', sass.logError))
+		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
 		.pipe(gulp.dest(`./${outDir}`))
 		.pipe(browserSync.stream());
 }
 
 function makeHtml() {
-	return gulp.src(HTML).pipe(gulp.dest(`./${outDir}`));
+	return outDir === DIR_DEV ?
+		// Set CSP for local development
+		gulp.src(HTML)
+			.pipe(htmlReplace({ csp: "<meta http-equiv='Content-Security-Policy' content='default-src 'self'; connect-src http://localhost:3000 ws://localhost:3000; script-src 'sha256-iJcsMwzkuoYDQiIE1l2dQLYUNQ2yPFt9EAZXv+KyjAw=' ws://localhost:3000 http://localhost:3000 'unsafe-eval'; object-src 'self';'>" }))
+			.pipe(gulp.dest(`./${outDir}`)) :
+		gulp.src(HTML).pipe(gulp.dest(`./${outDir}`));
 }
 
 // Dev tasks including watches for html and scss

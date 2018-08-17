@@ -7,7 +7,6 @@ $color-bg: #151414;
 $color-danger: #f00;
 
 $height-time-left: 50vh;
-$height-start-end-time: 20vh;
 $height-min-container: 320px;
 
 $font-size-xxl: 17rem;
@@ -45,7 +44,6 @@ input, body {
 
 	.start-end-time {
 		width: 46%;
-		height: $height-start-end-time;
 		font-size: $font-size-lg;
 		text-align: center;
 		margin: 0 10px;
@@ -153,8 +151,12 @@ button {
 }
 
 .start-end-time-container {
-	height: $height-start-end-time;
 	cursor: pointer;
+
+	span {
+		background-color: $color-white;
+		color: $color-black;
+	}
 }
 
 .time-left-container,
