@@ -65,6 +65,7 @@ button {
 	width: 100%;
 	height: 100%;
 	background-color: $color-event-list-bg;
+	overflow-y: scroll;
 
 	input {
 		font-size: 1rem;
@@ -81,6 +82,11 @@ button {
 		padding: 8px;
 	}
 
+	.events-wrapper {
+		max-width: 1024px;
+		margin: auto;
+	}
+
 	.close-event-list-wrapper {
 		text-align: right;
 
@@ -95,27 +101,25 @@ button {
 		max-width: 900px;
 
 		.event-item {
-			margin: 8px 0;
-
-			.event-item-name {
-				width: 42%;
+			.event-item-name,
+			.event-item-start,
+			.event-item-end {
 				margin-right: 8px;
 			}
 
 			.event-item-start,
 			.event-item-end {
-				width: 18%;
 				text-align: center;
-				margin-right: 8px;
+				min-width: 150px;
+				max-width: 180px;
 			}
 
 			.remove-event-button {
-				width: 8%;
-				margin: 0 4px;
 				padding: 12px;
 				background-color: $color-danger;
 				color: $color-white;
 				border-color: $color-danger;
+				margin: 0;
 			}
 		}
 
@@ -124,6 +128,13 @@ button {
 				margin-left: 0;
 			}
 		}
+	}
+
+	.meet-thy-maker {
+		font-family: Arial;
+		font-size: .8rem;
+		text-align: center;
+		padding: 40px 40px 12px;
 	}
 }
 
@@ -198,11 +209,60 @@ button {
 			font-size: $font-size-md - .5rem;
 		}
 	}
+
+	.event-item {
+		margin: 8px 0;
+
+		.event-item-name {
+			width: 42%;
+		}
+
+		.event-item-start,
+		.event-item-end {
+			width: 18%;
+		}
+
+		.remove-event-button {
+			width: 8%;
+		}
+	}
+}
+
+@media screen and (min-width: $breakpoint-md) {
+	.event-item {
+		margin: 0 0 8px;
+
+		.event-item-name {
+			width: 40%;
+		}
+	}
 }
 
 @media screen and (max-width: $breakpoint-md) and (min-height: $breakpoint-height-xs) {
 	.time-left-container {
 		font-size: $font-size-md;
+	}
+
+	.event-list {
+		.event-item {
+			margin: 0 0 12px;
+
+			.event-item-name {
+				display: block;
+				margin-bottom: 8px;
+				width: 94.5%;
+			}
+
+			.event-item-start,
+			.event-item-end {
+				width: 41%;
+				margin-right: 8px;
+			}
+
+			.remove-event-button {
+				margin: 0;
+			}
+		}
 	}
 }
 
@@ -215,6 +275,33 @@ button {
 
 	.time-left-container {
 		font-size: $font-size-xs;
+	}
+
+	.event-list {
+		.event-item {
+			margin: 0 0 12px;
+
+			.event-item-name {
+				display: block;
+				margin-bottom: 8px;
+				width: 95%;
+			}
+
+			.event-item-start,
+			.event-item-end {
+				width: 45%;
+			}
+
+			.event-item-end {
+				margin: 0;
+			}
+
+			.remove-event-button {
+				width: 44px;
+				min-width: 44px;
+				margin: 0;
+			}
+		}
 	}
 }
 
@@ -236,6 +323,27 @@ button {
 	.time-left-container {
 		font-size: $font-size-xs;
 	}
+
+	.event-list {
+		.event-item {
+			margin: 0 0 12px;
+
+			.event-item-name {
+				display: block;
+				margin-bottom: 8px;
+				width: 94.5%;
+			}
+
+			.event-item-start,
+			.event-item-end {
+				width: 45%;
+			}
+
+			.remove-event-button {
+				margin: 0;
+			}
+		}
+	}
 }
 
 @media screen and (max-width: $breakpoint-xs) and (max-height: $breakpoint-height-xs) {
@@ -248,6 +356,27 @@ button {
 	.time-left-container {
 		font-size: $font-size-xxs;
 	}
+
+	.event-list {
+		.event-item {
+			margin: 0 0 12px;
+
+			.event-item-name {
+				display: block;
+				margin-bottom: 8px;
+				width: 94.5%;
+			}
+
+			.event-item-start,
+			.event-item-end {
+				width: 45%;
+			}
+
+			.remove-event-button {
+				margin: 0;
+			}
+		}
+	}
 }
 
 @media screen and (max-width: $breakpoint-xs) and (max-height: $breakpoint-height-xxs) {
@@ -259,6 +388,27 @@ button {
 
 	.time-left-container {
 		font-size: $font-size-xxs;
+	}
+
+	.event-list {
+		.event-item {
+			margin: 0 0 12px;
+
+			.event-item-name {
+				display: block;
+				margin-bottom: 8px;
+				width: 94.5%;
+			}
+
+			.event-item-start,
+			.event-item-end {
+				width: 44.5%;
+			}
+
+			.remove-event-button {
+				margin: 0;
+			}
+		}
 	}
 }
 
