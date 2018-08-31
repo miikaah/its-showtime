@@ -35,11 +35,7 @@ function main() {
 		r
 	);
 	// Style changer component that changes CSS styles dynamically
-	const styleChanger = new StyleChanger(
-		'showtime-counter-clock',
-		'event-name-current',
-		r
-	);
+	const styleChanger = new StyleChanger('showtime-counter-clock', 'event-name-current', r);
 	styleChanger.update();
 	const styleChangerObserver = new ResourceObserver(styleChanger.update.bind(styleChanger));
 	r.registerObservers([startTimeObserver, endTimeObserver, eventDisplayObserver, styleChangerObserver]);

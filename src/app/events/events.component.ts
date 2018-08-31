@@ -116,7 +116,10 @@ export class EventsComponent {
 	}
 
 	private parseDate(dateString: string, type: 'start' | 'end'): Date {
+		// Format: '18:00 31.8.2018'
+		// time[0] is hours, time[1] is minutes
 		const time = dateString.split(' ')[0].split(':');
+		// date[2] is year, date[1] is month, date[0] is day
 		const date = dateString.split(' ').pop().split('.');
 		// Year, month index, day, hour, minute, seconds, milliseconds
 		return type === 'start' ?
