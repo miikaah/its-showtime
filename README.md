@@ -11,21 +11,21 @@ I wanted to make a really small app but keep all the convenience of a framework.
 I used the Observer pattern to update the components through a Singleton resource object (basically a poor man's Redux) and divided the needed resources to components as cleanly as I could:
 
 ## The App
-####This is where we start:
+#### This is where we start:
 ![Alt text](/assets/start-screen.png?raw=true)
 
 The first clock displays current time. The other two show an event's start and end times. When there is no upcoming events they just display current time.
 
-####This is the event list:
+#### This is the event list:
 ![Alt text](/assets/event-list.png?raw=true)
 
 Here you can add, modify and remove events. The list is sorted by start time. There's no conflict checking yet, so that is a PEBKAC. When you create a new event it automatically checks the previous event and starts on the next second after it and adds an hour to the end time. If there is no previous event it just starts now and ends an hour later. You can then modify the defaults and save the event list.
 
-####The Great Await
+#### The Great Await
 ![Alt text](/assets/awaiting.png?raw=true)
 When you are waiting for an event the biggest counter in the middle shows a human readable string on how long it is till showtime. It goes to from many days to a day then hours and minutes, minutes and ultimately a 60 second counter.
 
-####It's showtime
+#### It's showtime
 ![Alt text](/assets/showtime.png?raw=true)
 When the event is on, the showtime counter and the event name turn red to indicate that we are on air. The next event is also displayed under the current event.
 
@@ -41,5 +41,5 @@ There's also clearly benefits in using a framework, because you don't have to co
 ## Conclusion
 Don't do it like this if it's Enterprise but it's still great fun to get it all working. Learned some new good stuff from Gulp, Webpack, Typescript compiler and Jest.
 
-####How to use
+#### How to use
 Just clone this repo and run `npm run build:w` for development version and `npm run build:release` for the release version.
