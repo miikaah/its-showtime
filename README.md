@@ -8,7 +8,7 @@ Well, a friend of mine (a live audio engineer) needed this so he could input the
 ## How did I make this?
 I wanted to make a really small app but keep all the convenience of a framework. As you can see, this is a zero dependency app but there are a bunch of devDependencies. I utilised Typescript for coding Javascript, Webpack for building, Sass for styles, Gulp for workflow and Jest for testing. There's browserSync for instant updates & husky, lint-staged and stylelint for efficient code convention checks during development and code commit.
 
-I used the Observer pattern to update the components through a Singleton resource object (basically a poor man's Redux) and divided the needed resources to components as cleanly as I could:
+I used the Observer pattern to update the components through a Singleton resource object (basically a poor man's Redux) and divided the needed resources to components as cleanly as I could: Again, since I wanted to make a zero dependency App, I used plain old media queries for the responsive View. Nothing fancy like flex-layout or anything.
 
 ## The App
 #### This is where we start:
@@ -19,7 +19,7 @@ The first clock displays current time. The other two show an event's start and e
 #### This is the event list:
 ![Alt text](/assets/event-list.png?raw=true)
 
-Here you can add, modify and remove events. The list is sorted by start time. There's no conflict checking yet, so that is a PEBKAC. When you create a new event it automatically checks the previous event and starts on the next second after it and adds an hour to the end time. If there is no previous event it just starts now and ends an hour later. You can then modify the defaults and save the event list.
+Here you can add, modify and remove events. The list is stored in the browser's local storage. The list is sorted by start time. There's no conflict checking yet, so that is a PEBKAC. When you create a new event it automatically checks the previous event and starts on the next second after it and adds an hour to the end time. If there is no previous event it just starts now and ends an hour later. You can then modify the defaults and save the event list.
 
 #### The Great Await
 ![Alt text](/assets/awaiting.png?raw=true)
@@ -33,6 +33,8 @@ When the event is on, the showtime counter and the event name turn red to indica
 In the end the Javascript file is 14 KB, index.html is 2 KB and styles.css is 6 KB. 22 KB for the whole thing: not bad!
 
 While it was pretty easy to make this zero dependency App, it doesn't mean that this approach is scalable. For example I got lazy with the styles and just put them all in one file, where I should have split them to their respective components. When the App is this small it's okay, but it doesn't scale.
+
+I would have got nowhere without Javascript's Date API.
 
 Also, obviously since I'm using ids to connect to the DOM this App would be harder to maintain, since any id change would also have to be reflected in the code. I only use them in the main.ts but still, it creates spaghetti. I like Angular more.
 
