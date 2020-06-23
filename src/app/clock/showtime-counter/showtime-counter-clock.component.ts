@@ -34,8 +34,9 @@ export class ShowtimeCounterClock extends ClockBaseComponent {
 
 	private getSecondsLeft(): number {
 		const currentEvent = this.resources.currentEvent;
-		const time = currentEvent ?
-			currentEvent.startDate.getTime() : this.resources.nextEvent.startDate.getTime();
+		const time = currentEvent
+			? currentEvent.startDate.getTime()
+			: this.resources.nextEvent.startDate.getTime();
 		const now = (new Date()).getTime();
 		return (currentEvent ? currentEvent.endDate.getTime() - now : time - now) / 1000;
 	}
